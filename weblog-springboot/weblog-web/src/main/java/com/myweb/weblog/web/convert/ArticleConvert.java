@@ -3,6 +3,7 @@ package com.myweb.weblog.web.convert;
 import com.myweb.weblog.common.domain.dos.ArticleDO;
 import com.myweb.weblog.web.model.vo.article.FindIndexArticlePageListRspVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -20,7 +21,9 @@ public interface ArticleConvert {
      * @param bean
      * @return
      */
+    @Mapping(target = "createDate", expression = "java(java.time.LocalDate.from(bean.getCreateTime()))")
     FindIndexArticlePageListRspVO convertDO2VO(ArticleDO bean);
+
 
 }
 
