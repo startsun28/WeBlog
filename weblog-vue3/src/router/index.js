@@ -1,4 +1,4 @@
-import Index from '@/layouts/frontend/components/Header.vue'
+import Index from '@/view//frontend/index.vue'
 import Login from '@/view/admin/login.vue'
 import AdminIndex from '@/view/admin/index.vue'
 import Admin from "@/layouts/admin/admin.vue";
