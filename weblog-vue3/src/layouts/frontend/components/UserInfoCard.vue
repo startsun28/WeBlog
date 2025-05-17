@@ -169,12 +169,10 @@ onMounted(() => {
 
 // 引入博客设置信息 store
 const blogSettingsStore = useBlogSettingsStore()
-console.log(blogSettingsStore)
 // 跳转第三方主页
 const jump = (url) => {
   // 在新窗口访问新的链接地址
   window.open(url, '_blank');
-  console.log(url)
 }
 
 </script>
