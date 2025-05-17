@@ -1,4 +1,4 @@
-import Index from '@/view//frontend/index.vue'
+import Index from '@/view/frontend/index.vue'
 import Login from '@/view/admin/login.vue'
 import AdminIndex from '@/view/admin/index.vue'
 import Admin from "@/layouts/admin/admin.vue";
@@ -7,6 +7,7 @@ import AdminArticleList from '@/view/admin/article-list.vue'
 import AdminCategoryList from '@/view/admin/category-list.vue'
 import AdminTagList from '@/view/admin/tag-list.vue'
 import AdminBlogSettings from '@/view/admin/blog-settings.vue'
+import ArchiveList from '@/view/frontend/archive-list.vue'
 
 // 统一在这里声明所有路由
 const routes = [
@@ -22,6 +23,13 @@ const routes = [
         component: Login,
         meta: {
             title: 'Weblog 登录页'
+        }
+    },
+    {
+        path: '/archive/list',
+        component: ArchiveList,
+        meta:{
+            title: 'Weblog 归档页'
         }
     },
     {
