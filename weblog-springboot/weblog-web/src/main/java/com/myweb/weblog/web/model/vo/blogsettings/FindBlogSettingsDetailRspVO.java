@@ -16,8 +16,8 @@ public class FindBlogSettingsDetailRspVO {
     private String introduction;
     private String avatar;
     private String githubHomepage;
-    private String csdnHomepage;
+    private String qqHomepage;
     private String giteeHomepage;
-    private String zhihuHomepage;
+    private String wechatHomepage;
 }
 

@@ -35,10 +35,10 @@ public class UpdateBlogSettingsReqVO {
 
     private String githubHomepage;
 
-    private String csdnHomepage;
+    private String qqHomepage;
 
     private String giteeHomepage;
 
-    private String zhihuHomepage;
+    private String wechatHomepage;
 }
 
