@@ -2,7 +2,11 @@
   <!-- 分类 -->
   <div class="w-full mt-4 p-5 mb-3 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
     <!-- 分类标题 -->
-    <h2 class="mb-2 font-bold text-gray-900 uppercase ">分类</h2>
+
+    <h2 class="flex items-center text-lg mb-2 font-bold text-gray-900 uppercase ">
+      <svg t="1747476559436" class="icon w-4 h-4 mr-2" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="13152" width="200" height="200"><path d="M482.133333 341.333333l-42.666666-106.666666h-341.333334v554.666666h42.666667V277.333333h256l42.666667 106.666667h469.333333v469.333333h-810.666667v42.666667h853.333334V341.333333z" fill="" p-id="13153"></path><path d="M247.466667 106.666667v128h42.666666V149.333333h469.333334v149.333334h42.666666V106.666667zM631.466667 448h170.666666v42.666667h-170.666666z" fill="#ED3F80" p-id="13154"></path></svg>
+      分类
+    </h2>
     <!-- 分类列表 -->
     <div class="w-full text-gray-900 bg-white rounded-lg dark:bg-gray-700 dark:text-white">
       <a @click="goCategoryArticleListPage(category.id, category.name)" v-for="(category, index) in categories" :key="index"

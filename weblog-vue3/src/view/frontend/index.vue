@@ -1,6 +1,5 @@
 <template>
   <Header></Header>
-
   <!-- 主内容区域 -->
   <main class="container max-w-screen-xl mx-auto p-4">
     <!-- grid 表格布局，分为 4 列，元素间隔为 gap-4  -->
@@ -21,7 +20,8 @@
                   <!-- 标签 -->
                   <div class="mb-3">
                     <span v-for="(tag, tagIndex) in article.tags" :key="tagIndex"
-                        class="cursor-pointer bg-green-100 text-green-800
+                          @click="goTagArticleListPage(tag.id, tag.name)"
+                          class="cursor-pointer bg-green-100 text-green-800
                                text-xs font-medium mr-2 px-2.5 py-0.5 rounded
                                hover:bg-green-200 hover:text-green-900 dark:bg-green-900 dark:text-green-300"
                       >
@@ -139,8 +139,6 @@ import { getArticlePageList } from '@/api/frontend/article'
 import UserInfoCard from '@/layouts/frontend/components/UserInfoCard.vue'
 import CategoryListCard from '@/layouts/frontend/components/CategoryListCard.vue'
 import TagListCard from '@/layouts/frontend/components/TagListCard.vue'
-
-import {getCategoryList} from '@/api/frontend/category'
 import {useRouter} from "vue-router";
 // 引入路由
 const router = useRouter()
@@ -151,6 +149,11 @@ const goCategoryArticleListPage = (id, name) => {
   router.push({path: '/category/article/list', query: {id, name}})
 }
 
+// 跳转标签文章列表页
+const goTagArticleListPage = (id, name) => {
+  // 跳转时通过 query 携带参数（分类 ID、分类名称）
+  router.push({path: '/tag/article/list', query: {id, name}})
+}
 
 //文章集合
 const articles = ref ([])
