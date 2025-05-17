@@ -8,7 +8,7 @@ import AdminCategoryList from '@/view/admin/category-list.vue'
 import AdminTagList from '@/view/admin/tag-list.vue'
 import AdminBlogSettings from '@/view/admin/blog-settings.vue'
 import ArchiveList from '@/view/frontend/archive-list.vue'
-
+import CategoryList from '@/view/frontend/category-list.vue'
 // 统一在这里声明所有路由
 const routes = [
     {
@@ -30,6 +30,13 @@ const routes = [
         component: ArchiveList,
         meta:{
             title: 'Weblog 归档页'
+        }
+    },
+    {
+        path: '/category/list',
+        component: CategoryList,
+        meta:{
+            title: 'Weblog 分类页'
         }
     },
     {
