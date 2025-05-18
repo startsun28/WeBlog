@@ -13,7 +13,7 @@ public class NofollowLinkAttributeProvider implements AttributeProvider {
     /**
      * 网站域名（上线后需要改成自己的域名）
      */
-    private final static String DOMAIN = "www.quanxiaoha.com";
+    private final static String DOMAIN = "www.001615.xyz";
 
     @Override
     public void setAttributes(Node node, String tagName, Map<String, String> attributes) {
