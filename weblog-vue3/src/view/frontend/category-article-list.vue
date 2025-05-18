@@ -9,11 +9,7 @@
         <div class="p-5 mb-4 border border-gray-200 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700">
           <h1 class="flex items-center text-lg font-semibold text-gray-900 dark:text-white">
             <!-- 文件夹图标 -->
-            <svg class="inline w-4 h-4 mr-2 dark:text-white" aria-hidden="true"
-                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 18">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M2.539 17h12.476l4-9H5m-2.461 9a1 1 0 0 1-.914-1.406L5 8m-2.461 9H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.443a1 1 0 0 1 .8.4l2.7 3.6H16a1 1 0 0 1 1 1v2H5" />
-            </svg>
+            <svg t="1747476559436" class="icon w-5 h-5 mr-2" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="13152" width="200" height="200"><path d="M482.133333 341.333333l-42.666666-106.666666h-341.333334v554.666666h42.666667V277.333333h256l42.666667 106.666667h469.333333v469.333333h-810.666667v42.666667h853.333334V341.333333z" fill="" p-id="13153"></path><path d="M247.466667 106.666667v128h42.666666V149.333333h469.333334v149.333334h42.666666V106.666667zM631.466667 448h170.666666v42.666667h-170.666666z" fill="#ED3F80" p-id="13154"></path></svg>
             {{ categoryName }}
           </h1>
           <ol v-if="articles && articles.length > 0" class="mt-3 divide-y divider-gray-200 dark:divide-gray-700">
@@ -149,9 +145,8 @@ function getCategoryArticles(currentNo) {
           pages.value = res.pages
 
         }
-  })
+      })
 }
 getCategoryArticles(current.value)
 
 </script>
-
