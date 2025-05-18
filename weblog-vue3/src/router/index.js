@@ -12,6 +12,8 @@ import CategoryList from '@/view/frontend/category-list.vue'
 import CategoryArticleList from '@/view/frontend/category-article-list.vue'
 import TagList from '@/view/frontend/tag-list.vue'
 import TagArticleList from '@/view/frontend/tag-article-list.vue'
+import ArticleDetail from '@/view/frontend/article-detail.vue'
+
 
 // 统一在这里声明所有路由
 const routes = [
@@ -62,6 +64,13 @@ const routes = [
         component: TagArticleList,
         meta: { // meta 信息
             title: 'Weblog 标签文章页'
+        }
+    },
+    {
+        path: '/article/:articleId', // 文章详情页
+        component: ArticleDetail,
+        meta: { // meta 信息
+            title: 'Weblog 详情页'
         }
     },
     {
