@@ -1,7 +1,9 @@
 package com.myweb.weblog.web.controller;
 
+
 import com.myweb.weblog.common.aspect.ApiOperationLog;
 import com.myweb.weblog.common.utils.Response;
+import com.myweb.weblog.web.model.vo.article.FindArticleDetailReqVO;
 import com.myweb.weblog.web.model.vo.article.FindIndexArticlePageListReqVO;
 import com.myweb.weblog.web.service.ArticleService;
 import io.swagger.annotations.Api;
@@ -25,5 +27,11 @@ public class ArticleController {
         return articleService.findArticlePageList(findIndexArticlePageListReqVO);
     }
 
+    @PostMapping("/detail")
+    @ApiOperation(value = "获取文章详情")
+    @ApiOperationLog(description = "获取文章详情")
+    public Response findArticleDetail(@RequestBody FindArticleDetailReqVO findArticleDetailReqVO) {
+        return articleService.findArticleDetail(findArticleDetailReqVO);
+    }
 }
 
