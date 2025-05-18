@@ -1,6 +1,5 @@
 <template>
   <Header />
-
   <!-- 主内容区域 -->
   <main class="container max-w-screen-xl mx-auto p-4 px-6">
     <!-- grid 表格布局，分为 4 列 -->
@@ -37,8 +36,8 @@
               </a>
             </li>
           </ol>
-
           <!-- 该标签下没有文章提示，指定为 flex 布局，内容垂直水平居中，并纵向排列  -->
+
           <div v-else class="flex items-center justify-center flex-col">
             <svg height="300" node-id="1" sillyvg="true" template-height="600" template-width="600"
                  version="1.1" viewBox="0 0 600 600" width="600" xmlns="http://www.w3.org/2000/svg"
@@ -211,6 +210,7 @@
                   target-height="46" target-width="33.334473" target-x="380.8566" target-y="423" />
             </svg>
             <p class="mt-2 mb-16 text-gray-400">此标签下还未发布文章哟~</p>
+
           </div>
         </div>
 
@@ -220,6 +220,7 @@
             <!-- 上一页 -->
             <li>
               <a @click="getTagArticles(current - 1)"
+
                  class="flex items-center justify-center px-4 h-10 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                  :class="[current > 1 ? '' : 'cursor-not-allowed']">
 
@@ -234,6 +235,7 @@
             <!-- 页码 -->
             <li v-for="(pageNo, index) in pages" :key="index">
               <a @click="getTagArticles(pageNo)"
+
                  class="flex items-center justify-center px-4 h-10 leading-tight border  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                  :class="[pageNo == current ? 'text-blue-600  bg-blue-50 border-blue-300 hover:bg-blue-100 hover:text-blue-700' : 'text-gray-500 border-gray-300 bg-white hover:bg-gray-100 hover:text-gray-700']">
                 {{ index + 1 }}
@@ -268,9 +270,7 @@
         <TagListCard />
       </aside>
     </div>
-
   </main>
-
   <Footer />
 </template>
 
@@ -303,7 +303,9 @@ watch(route, (newRoute, oldRoute) => {
 // 当前页码
 const current = ref(1)
 // 每页显示的文章数
-const size = ref(1)
+
+const size = ref(10)
+
 // 总文章数
 const total = ref(0)
 // 总共多少页
@@ -325,3 +327,4 @@ function getTagArticles(currentNo) {
 }
 getTagArticles(current.value)
 </script>
+
