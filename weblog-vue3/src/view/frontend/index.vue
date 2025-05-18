@@ -1,6 +1,5 @@
 <template>
   <Header></Header>
-
   <!-- 主内容区域 -->
   <main class="container max-w-screen-xl mx-auto p-4">
     <!-- grid 表格布局，分为 4 列，元素间隔为 gap-4  -->
@@ -9,63 +8,64 @@
       <div class="col-span-4  md:col-span-3 mb-3">
         <!-- 文章列表，grid 表格布局，分为 2 列 -->
         <div class="grid grid-cols-2 gap-4">
-            <div v-for="(article, index) in articles " :key="index" class="col-span-2 md:col-span-1">
-              <div class="bg-white h-full border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
-                <!-- 文章封面 -->
-                <a href="#">
-                  <img class="rounded-t-lg h-40 w-full"
-                       :src="article.cover"
-                       alt="" />
-                </a>
-                <div class="p-5">
-                  <!-- 标签 -->
-                  <div class="mb-3">
+          <div v-for="(article, index) in articles " :key="index" class="col-span-2 md:col-span-1">
+            <div class="bg-white h-full border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+              <!-- 文章封面 -->
+              <a href="#">
+                <img class="rounded-t-lg h-40 w-full"
+                     :src="article.cover"
+                     alt="" />
+              </a>
+              <div class="p-5">
+                <!-- 标签 -->
+                <div class="mb-3">
                     <span v-for="(tag, tagIndex) in article.tags" :key="tagIndex"
-                        class="cursor-pointer bg-green-100 text-green-800
+                          @click="goTagArticleListPage(tag.id, tag.name)"
+                          class="cursor-pointer bg-green-100 text-green-800
                                text-xs font-medium mr-2 px-2.5 py-0.5 rounded
                                hover:bg-green-200 hover:text-green-900 dark:bg-green-900 dark:text-green-300"
-                      >
+                    >
                       {{ tag.name }}
                     </span>
-                  </div>
-
-                  <!-- 文章标题 -->
-                  <a href="#">
-                    <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                      {{ article.title }}
-                    </h2>
-                  </a>
-                  <!-- 文章摘要 -->
-                  <p v-if="article.summary"
-                     class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    {{ article.summary }}
-                  </p>
-
-                  <!-- 文章发布时间、所属分类 -->
-                  <p class="flex items-center font-normal text-gray-400 text-sm dark:text-gray-400">
-                    <!-- 发布时间 -->
-                    <svg class="inline w-3 h-3 mr-2 text-gray-400 dark:text-white" aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
-                    </svg>
-                    {{ article.createDate }}
-
-                    <!-- 所属分类 -->
-                    <svg class="inline w-3 h-3 ml-5 mr-2 text-gray-400 dark:text-white" aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M1 5v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H1Zm0 0V2a1 1 0 0 1 1-1h5.443a1 1 0 0 1 .8.4l2.7 3.6H1Z" />
-                    </svg>
-                    <a @click="goCategoryArticleListPage(article.category.id, article.category.name)"
-                      class="text-gray-400 hover:underline">{{ article.category.name }}</a>
-                  </p>
-
                 </div>
+
+                <!-- 文章标题 -->
+                <a href="#">
+                  <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {{ article.title }}
+                  </h2>
+                </a>
+                <!-- 文章摘要 -->
+                <p v-if="article.summary"
+                   class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  {{ article.summary }}
+                </p>
+
+                <!-- 文章发布时间、所属分类 -->
+                <p class="flex items-center font-normal text-gray-400 text-sm dark:text-gray-400">
+                  <!-- 发布时间 -->
+                  <svg class="inline w-3 h-3 mr-2 text-gray-400 dark:text-white" aria-hidden="true"
+                       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+                  </svg>
+                  {{ article.createDate }}
+
+                  <!-- 所属分类 -->
+                  <svg class="inline w-3 h-3 ml-5 mr-2 text-gray-400 dark:text-white" aria-hidden="true"
+                       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M1 5v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H1Zm0 0V2a1 1 0 0 1 1-1h5.443a1 1 0 0 1 .8.4l2.7 3.6H1Z" />
+                  </svg>
+                  <a @click="goCategoryArticleListPage(article.category.id, article.category.name)"
+                     class="text-gray-400 hover:underline">{{ article.category.name }}</a>
+                </p>
+
               </div>
             </div>
+          </div>
         </div>
         <!-- 分页 -->
         <nav aria-label="Page navigation example" class="mt-10 flex justify-center">
@@ -139,8 +139,6 @@ import { getArticlePageList } from '@/api/frontend/article'
 import UserInfoCard from '@/layouts/frontend/components/UserInfoCard.vue'
 import CategoryListCard from '@/layouts/frontend/components/CategoryListCard.vue'
 import TagListCard from '@/layouts/frontend/components/TagListCard.vue'
-
-import {getCategoryList} from '@/api/frontend/category'
 import {useRouter} from "vue-router";
 // 引入路由
 const router = useRouter()
@@ -151,6 +149,11 @@ const goCategoryArticleListPage = (id, name) => {
   router.push({path: '/category/article/list', query: {id, name}})
 }
 
+// 跳转标签文章列表页
+const goTagArticleListPage = (id, name) => {
+  // 跳转时通过 query 携带参数（分类 ID、分类名称）
+  router.push({path: '/tag/article/list', query: {id, name}})
+}
 
 //文章集合
 const articles = ref ([])
