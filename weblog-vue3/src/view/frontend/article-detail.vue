@@ -166,9 +166,6 @@ const router = useRouter()
 watch(route, (newRoute, oldRoute) => {
   // 重新渲染文章详情
   refreshArticleDetail(newRoute.params.articleId)
-  if (props.isAdminPreview) {
-    refreshArticleDetail(newRoute.params.articleId)
-  }
 })
 
 // 路由传递过来的文章 ID
