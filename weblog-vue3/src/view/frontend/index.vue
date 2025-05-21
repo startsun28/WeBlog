@@ -126,6 +126,9 @@
     </div>
 
   </main>
+  <!-- 返回顶部 -->
+  <ScrollToTopButton></ScrollToTopButton>
+
   <Footer />
 </template>
 
@@ -138,7 +141,8 @@ import { getArticlePageList } from '@/api/frontend/article'
 import UserInfoCard from '@/layouts/frontend/components/UserInfoCard.vue'
 import CategoryListCard from '@/layouts/frontend/components/CategoryListCard.vue'
 import TagListCard from '@/layouts/frontend/components/TagListCard.vue'
-import {useRouter} from "vue-router";
+import ScrollToTopButton from '@/layouts/frontend/components/ScrollToTopButton.vue'
+import { useRouter } from "vue-router";
 // 引入路由
 const router = useRouter()
 

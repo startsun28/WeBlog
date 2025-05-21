@@ -93,6 +93,9 @@
       </div>
     </div>
   </main>
+  <!-- 返回顶部 -->
+  <ScrollToTopButton></ScrollToTopButton>
+
   <Footer />
 </template>
 <script setup>
@@ -101,6 +104,7 @@ import UserInfoCard from "@/layouts/frontend/components/UserInfoCard.vue";
 import CategoryListCard from "@/layouts/frontend/components/CategoryListCard.vue";
 import Footer from "@/layouts/frontend/components/Footer.vue";
 import TagListCard from "@/layouts/frontend/components/TagListCard.vue";
+import ScrollToTopButton from '@/layouts/frontend/components/ScrollToTopButton.vue'
 import { getArchivePageList } from '@/api/frontend/archive'
 import { onMounted, ref } from 'vue'
 

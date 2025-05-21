@@ -38,11 +38,14 @@
         <!-- 博主信息 -->
         <UserInfoCard />
         <!-- 标签 -->
-        <TagListCard />
+        <CategoryListCard />
       </aside>
     </div>
   </main>
-  <Footer/>
+  <!-- 返回顶部 -->
+  <ScrollToTopButton></ScrollToTopButton>
+
+  <Footer></Footer>
 </template>
 
 <script setup>
@@ -50,6 +53,7 @@ import Header from '@/layouts/frontend/components/Header.vue'
 import Footer from '@/layouts/frontend/components/Footer.vue'
 import UserInfoCard from '@/layouts/frontend/components/UserInfoCard.vue'
 import CategoryListCard from '@/layouts/frontend/components/CategoryListCard.vue'
+import ScrollToTopButton from '@/layouts/frontend/components/ScrollToTopButton.vue'
 import { getTagList } from '@/api/frontend/tag'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
