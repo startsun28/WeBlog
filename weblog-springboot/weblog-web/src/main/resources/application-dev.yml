@@ -26,3 +26,8 @@ minio:
   accessKey: sanliang
   secretKey: sanliang
   bucketName: weblog
+#=================================================================
+# Lucene 全文检索
+#=================================================================
+lucene:
+  indexDir: D:\\java_workspace\\lucene-index # lucene 索引存放的位置

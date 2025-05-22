@@ -82,6 +82,12 @@
             <artifactId>commonmark-ext-task-list-items</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.myweb</groupId>
+            <artifactId>weblog-module-search</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>
