@@ -3,11 +3,46 @@
   <div class="w-full py-5 px-2 mb-3 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
     <div class="flex flex-col items-center">
       <!-- 博主头像 -->
-      <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="http://127.0.0.1:9000/weblog/avter.jpg" alt="Bonnie image"/>
+      <div class="relative mb-4">
+        <img class="w-14 h-14 mb-4 rounded-full shadow-lg" :src="blogSettingsStore.blogSettings.avatar" alt="Bonnie image"/>
+        <span class="bottom-4 left-10 absolute w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full" />
+      </div>
       <!-- 博主昵称 -->
-      <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{blogSettingsStore.blogSettings.author}}</h5>
+      <h5 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">{{blogSettingsStore.blogSettings.author}}</h5>
       <!-- 介绍语 -->
-      <span class="text-sm text-gray-500 dark:text-gray-400">{{blogSettingsStore.blogSettings.introduction}}</span>
+      <span class="mb-5 text-sm text-gray-500 dark:text-gray-400"
+            data-tooltip-target="introduction-tooltip-bottom"
+            data-tooltip-placement="bottom"
+      >
+        {{ blogSettingsStore.blogSettings.introduction }}
+      </span>
+      <div id="introduction-tooltip-bottom" role="tooltip"
+           class="absolute z-10 invisible inline-block px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded shadow-sm opacity-0 tooltip dark:bg-gray-700">
+        介绍语
+        <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+      <!-- 文章数量、分类数量、标签数量、总访问量 -->
+      <!-- flex 布局，justify-center 水平居中，gap-5 设置 flex 内子元素的间距 -->
+      <div class="flex justify-center gap-5 mb-2">
+        <div class="flex items-center flex-col gap-1 hover:text-blue-700 hover:scale-110 cursor-pointer">
+          <!-- 字体大小为 text-lg , font-bold 字体加粗 -->
+          <div class="text-lg font-bold">{{ statisticsInfo.articleTotalCount }}</div>
+          <!-- 字体大小为 text-sm -->
+          <div class="text-sm">文章</div>
+        </div>
+        <div class="flex items-center flex-col gap-1 hover:text-blue-700 hover:scale-110 cursor-pointer">
+          <div class="text-lg font-bold">{{ statisticsInfo.categoryTotalCount }}</div>
+          <div class="text-sm">分类</div>
+        </div>
+        <div class="flex items-center flex-col gap-1 hover:text-blue-700 hover:scale-110 cursor-pointer">
+          <div class="text-lg font-bold">{{ statisticsInfo.tagTotalCount }}</div>
+          <div class="text-sm">标签</div>
+        </div>
+        <div class="flex items-center flex-col gap-1">
+          <div class="text-lg font-bold">{{ statisticsInfo.pvTotalCount }}</div>
+          <div class="text-sm">总访问量</div>
+        </div>
+      </div>
       <!-- 第三方平台主页跳转（如 GitHub 等） -->
       <div class="flex justify-center gap-2">
         <!-- GitHub -->
@@ -16,7 +51,7 @@
              data-tooltip-target="github-tooltip-bottom"
              @click="jump(blogSettingsStore.blogSettings.githubHomepage)"
              data-tooltip-placement="bottom"
-             class="icon w-7 h-7 mt-5"
+             class="icon w-7 h-7 mt-5 hover:scale-110"
              viewBox="0 0 1024 1024"
              version="1.1"
              xmlns="http://www.w3.org/2000/svg"
@@ -48,8 +83,8 @@
         <!-- GitHub Tooltip -->
         <div id="github-tooltip-bottom"
              role="tooltip"
-             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white
-                          bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+             class="absolute z-10 invisible inline-block px-3 py-2 font-medium text-white
+                          bg-gray-900 shadow-sm opacity-0 tooltip dark:bg-gray-700 text-xs rounded"
         >
           我的 GitHub
           <div class="tooltip-arrow" data-popper-arrow></div>
@@ -59,7 +94,7 @@
              t="1698030969736"
              data-tooltip-target="gitee-tooltip-bottom"
              data-tooltip-placement="bottom"
-             class="icon w-7 h-7 mt-5"
+             class="icon w-7 h-7 mt-5 hover:scale-110"
              viewBox="0 0 1024 1024"
              version="1.1"
              xmlns="http://www.w3.org/2000/svg"
@@ -68,14 +103,14 @@
              height="200"
         >
          <path d="M512 1024C229.222 1024 0 794.778 0 512S229.222 0 512 0s512 229.222 512 512-229.222 512-512 512z m259.149-568.883h-290.74a25.293 25.293 0 0 0-25.292 25.293l-0.026 63.206c0 13.952 11.315 25.293 25.267 25.293h177.024c13.978 0 25.293 11.315 25.293 25.267v12.646a75.853 75.853 0 0 1-75.853 75.853h-240.23a25.293 25.293 0 0 1-25.267-25.293V417.203a75.853 75.853 0 0 1 75.827-75.853h353.946a25.293 25.293 0 0 0 25.267-25.292l0.077-63.207a25.293 25.293 0 0 0-25.268-25.293H417.152a189.62 189.62 0 0 0-189.62 189.645V771.15c0 13.977 11.316 25.293 25.294 25.293h372.94a170.65 170.65 0 0 0 170.65-170.65V480.384a25.293 25.293 0 0 0-25.293-25.267z" fill="#C71D23" p-id="2439"></path></svg>
-        <div id="gitee-tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+        <div id="gitee-tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded shadow-sm opacity-0 tooltip dark:bg-gray-700">
           我的 Gitee
           <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
         <!-- QQ -->
         <svg v-if="blogSettingsStore.blogSettings.qqHomepage"
              t="1747374100544"
-             class="icon w-7 h-7 mt-5"
+             class="icon w-7 h-7 mt-5 hover:scale-110"
              data-tooltip-target="qq-tooltip-bottom"
              data-tooltip-placement="bottom"
              viewBox="0 0 1024 1024"
@@ -104,14 +139,14 @@
                 p-id="12109"
           />
         </svg>
-        <div id="qq-tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+        <div id="qq-tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded shadow-sm opacity-0 tooltip dark:bg-gray-700">
           我的 QQ
           <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
         <!-- WX -->
         <svg v-if="blogSettingsStore.blogSettings.wechatHomepage"
              t="1747374493104"
-             class="icon w-7 h-7 mt-5"
+             class="icon w-7 h-7 mt-5 hover:scale-110"
              data-tooltip-target="wechat-tooltip-bottom"
              data-tooltip-placement="bottom"
              viewBox="0 0 1024 1024"
@@ -149,7 +184,7 @@
                 p-id="16211"
           />
         </svg>
-        <div id="wechat-tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+        <div id="wechat-tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded shadow-sm opacity-0 tooltip dark:bg-gray-700">
           我的微信
           <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
@@ -160,9 +195,10 @@
 
 <script setup>
 import { useBlogSettingsStore } from '@/stores/blogsettings'
-import {onMounted} from "vue";
-import {initTooltips} from "flowbite";
-// initialize components based on data attribute selectors
+import {initTooltips} from 'flowbite'
+import { onMounted, ref } from 'vue'
+import { getStatisticsInfo } from '@/api/frontend/statistics'
+
 onMounted(() => {
   initTooltips();
 })
@@ -175,6 +211,13 @@ const jump = (url) => {
   window.open(url, '_blank');
 }
 
+// 统计信息(文章、分类、标签数量、总访问量)
+const statisticsInfo = ref({})
+getStatisticsInfo().then(res => {
+  if (res.success) {
+    statisticsInfo.value = res.data
+  }
+})
 </script>
 
 <style scoped>
