@@ -1,8 +1,6 @@
 <template>
 <!--  侧栏fixed固定不动,滚动条-->
-  <div class="bg-slate-800 h-screen text-white menu-container fixed overflow-y-auto"
-       transition-all
-       :style="{ width: menuStore.menuWidth }">
+  <div class="fixed overflow-y-auto bg-slate-800 h-screen text-white menu-container transition-all duration-300 shadow-2xl" :style="{ width: menuStore.menuWidth }">
     <!-- 顶部 Logo, 指定高度为 64px, 和右边的 Header 头保持一样高 -->
     <div class="flex items-center justify-center h-[64px]">
       <img v-if="menuStore.menuWidth == '250px'" src="@/assets/weblog-logo.png" class="h-[60px]">

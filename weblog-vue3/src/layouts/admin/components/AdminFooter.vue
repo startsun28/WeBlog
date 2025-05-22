@@ -4,7 +4,7 @@
     Copyright © 2025. All rights reserved. Provided by&nbsp; <a class="underline" href="" target="_blank">三两</a>
   </div>
 </template>
-c
+
 <script>
 export default {
   name: "AdminFooter"

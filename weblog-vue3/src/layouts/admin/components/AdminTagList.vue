@@ -1,7 +1,6 @@
 <template>
   <!-- 左边：标签导航栏 -->
-<!--  <div class="fixed flex items-center top-[50px] h-[44px] px-2 right-0 z-50 bg-white" style="left: 250px;">-->
-    <div class="fixed top-[64px] h-[44px] px-2 right-0 z-50 flex items-center bg-white transition-all duration-150 shadow" :style="{left: menuStore.menuWidth}">
+  <div class="fixed top-[64px] h-[44px] px-2 right-0 z-50 flex items-center bg-white transition-all duration-300 shadow" :style="{left: menuStore.menuWidth}">
       <el-tabs
           v-model="activeTab"
           type="card"

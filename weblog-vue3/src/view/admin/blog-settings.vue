@@ -260,7 +260,7 @@ const onSubmit = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .avatar-uploader .avatar {
   width: 100px;
   height: 100px;
@@ -268,12 +268,12 @@ const onSubmit = () => {
 }
 </style>
 
-  <style>
-    /* 解决 textarea :focus 状态下，边框消失的问题 */
-  .el-textarea__inner:focus {
-    outline: 0 !important;
-    box-shadow: 0 0 0 1px var(--el-input-focus-border-color) inset !important;
-  }
+<style>
+/* 解决 textarea :focus 状态下，边框消失的问题 */
+.el-textarea__inner:focus {
+  outline: 0 !important;
+  box-shadow: 0 0 0 1px var(--el-input-focus-border-color) inset !important;
+}
 
 .avatar-uploader .el-upload {
   border: 1px dashed var(--el-border-color);
@@ -295,5 +295,4 @@ const onSubmit = () => {
   height: 100px;
   text-align: center;
 }
-
 </style>
