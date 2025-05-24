@@ -4,6 +4,9 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * @description: lucene 配置
+ **/
 @ConfigurationProperties(prefix = "lucene")
 @Component
 @Data

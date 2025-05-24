@@ -1,9 +1,12 @@
 package com.myweb.weblog.admin.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.myweb.weblog.admin.convert.ArticleDetailConvert;
+import com.myweb.weblog.admin.event.DeleteArticleEvent;
+import com.myweb.weblog.admin.event.PublishArticleEvent;
+import com.myweb.weblog.admin.event.UpdateArticleEvent;
 import com.myweb.weblog.admin.model.vo.article.*;
 import com.myweb.weblog.admin.service.AdminArticleService;
 import com.myweb.weblog.common.domain.dos.*;
@@ -14,8 +17,10 @@ import com.myweb.weblog.common.utils.PageResponse;
 import com.myweb.weblog.common.utils.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,10 +30,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @description: 文章
+ **/
 @Service
 @Slf4j
 public class AdminArticleServiceImpl implements AdminArticleService {
-
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -42,6 +49,8 @@ public class AdminArticleServiceImpl implements AdminArticleService {
     private TagMapper tagMapper;
     @Autowired
     private ArticleTagRelMapper articleTagRelMapper;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     /**
      * 发布文章
@@ -61,8 +70,6 @@ public class AdminArticleServiceImpl implements AdminArticleService {
                 .updateTime(LocalDateTime.now())
                 .build();
         articleMapper.insert(articleDO);
-
-
 
         // 拿到插入记录的主键 ID
         Long articleId = articleDO.getId();
@@ -92,94 +99,12 @@ public class AdminArticleServiceImpl implements AdminArticleService {
 
         // 4. 保存文章关联的标签集合
         List<String> publishTags = publishArticleReqVO.getTags();
-
         insertTags(articleId, publishTags);
+
+        // 发送文章发布事件
+        eventPublisher.publishEvent(new PublishArticleEvent(this, articleId));
+
         return Response.success();
-    }
-
-    /**
-     * 保存标签
-     * @param articleId
-     * @param publishTags
-     */
-    private void insertTags(Long articleId, List<String> publishTags) {
-        // 筛选提交的标签（表中不存在的标签）
-        List<String> notExistTags = null;
-        // 筛选提交的标签（表中已存在的标签）
-        List<String> existedTags = null;
-
-        // 查询出所有标签
-        List<TagDO> tagDOS = tagMapper.selectList(null);
-
-        // 如果表中还没有添加任何标签
-        if (CollectionUtils.isEmpty(tagDOS)) {
-            notExistTags = publishTags;
-        } else {
-            List<String> tagIds = tagDOS.stream().map(tagDO -> String.valueOf(tagDO.getId())).collect(Collectors.toList());
-            // 表中已添加相关标签，则需要筛选
-            // 通过标签 ID 来筛选，包含对应 ID 则表示提交的标签是表中存在的
-            existedTags = publishTags.stream().filter(publishTag -> tagIds.contains(publishTag)).collect(Collectors.toList());
-            // 否则则是不存在的
-            notExistTags = publishTags.stream().filter(publishTag -> !tagIds.contains(publishTag)).collect(Collectors.toList());
-
-            // 补充逻辑：
-            // 还有一种可能：按字符串名称提交上来的标签，也有可能是表中已存在的，比如表中已经有了 Java 标签，用户提交了个 java 小写的标签，需要内部装换为 Java 标签
-            Map<String, Long> tagNameIdMap = tagDOS.stream().collect(Collectors.toMap(tagDO -> tagDO.getName().toLowerCase(), TagDO::getId));
-
-            // 使用迭代器进行安全的删除操作
-            Iterator<String> iterator = notExistTags.iterator();
-            while (iterator.hasNext()) {
-                String notExistTag = iterator.next();
-                // 转小写, 若 Map 中相同的 key，则表示该新标签是重复标签
-                if (tagNameIdMap.containsKey(notExistTag.toLowerCase())) {
-                    // 从不存在的标签集合中清除
-                    iterator.remove();
-                    // 并将对应的 ID 添加到已存在的标签集合
-                    existedTags.add(String.valueOf(tagNameIdMap.get(notExistTag.toLowerCase())));
-                }
-            }
-        }
-
-        // 将提交的上来的，已存在于表中的标签，文章-标签关联关系入库
-        if (!CollectionUtils.isEmpty(existedTags)) {
-            List<ArticleTagRelDO> articleTagRelDOS = Lists.newArrayList();
-            existedTags.forEach(tagId -> {
-                ArticleTagRelDO articleTagRelDO = ArticleTagRelDO.builder()
-                        .articleId(articleId)
-                        .tagId(Long.valueOf(tagId))
-                        .build();
-                articleTagRelDOS.add(articleTagRelDO);
-            });
-            // 批量插入
-            articleTagRelMapper.insertBatchSomeColumn(articleTagRelDOS);
-        }
-
-        // 将提交的上来的，不存在于表中的标签，入库保存
-        if (!CollectionUtils.isEmpty(notExistTags)) {
-            // 需要先将标签入库，拿到对应标签 ID 后，再把文章-标签关联关系入库
-            List<ArticleTagRelDO> articleTagRelDOS = Lists.newArrayList();
-            notExistTags.forEach(tagName -> {
-                TagDO tagDO = TagDO.builder()
-                        .name(tagName)
-                        .createTime(LocalDateTime.now())
-                        .updateTime(LocalDateTime.now())
-                        .build();
-
-                tagMapper.insert(tagDO);
-
-                // 拿到保存的标签 ID
-                Long tagId = tagDO.getId();
-
-                // 文章-标签关联关系
-                ArticleTagRelDO articleTagRelDO = ArticleTagRelDO.builder()
-                        .articleId(articleId)
-                        .tagId(tagId)
-                        .build();
-                articleTagRelDOS.add(articleTagRelDO);
-            });
-            // 批量插入
-            articleTagRelMapper.insertBatchSomeColumn(articleTagRelDOS);
-        }
     }
 
     /**
@@ -204,6 +129,9 @@ public class AdminArticleServiceImpl implements AdminArticleService {
 
         // 4. 删除文章-标签关联记录
         articleTagRelMapper.deleteByArticleId(articleId);
+
+        // 发布文章删除事件
+        eventPublisher.publishEvent(new DeleteArticleEvent(this, articleId));
 
         return Response.success();
     }
@@ -230,7 +158,7 @@ public class AdminArticleServiceImpl implements AdminArticleService {
 
         // DO 转 VO
         List<FindArticlePageListRspVO> vos = null;
-        if (!CollectionUtils.isEmpty(articleDOS)) {
+        if (!org.springframework.util.CollectionUtils.isEmpty(articleDOS)) {
             vos = articleDOS.stream()
                     .map(articleDO -> FindArticlePageListRspVO.builder()
                             .id(articleDO.getId())
@@ -243,14 +171,15 @@ public class AdminArticleServiceImpl implements AdminArticleService {
 
         return PageResponse.success(articleDOPage, vos);
     }
+
     /**
      * 查询文章详情
      *
-     * @param findArticlePageListReqVO
+     * @param findArticleDetailReqVO
      * @return
      */
     @Override
-    public Response findArticleDetail(FindArticleDetailReqVO findArticleDetailReqVO) {
+    public Response<FindArticleDetailRspVO> findArticleDetail(FindArticleDetailReqVO findArticleDetailReqVO) {
         Long articleId = findArticleDetailReqVO.getId();
 
         ArticleDO articleDO = articleMapper.selectById(articleId);
@@ -281,6 +210,8 @@ public class AdminArticleServiceImpl implements AdminArticleService {
 
     /**
      * 更新文章
+     *
+     * @param updateArticleReqVO
      * @return
      */
     @Override
@@ -336,8 +267,93 @@ public class AdminArticleServiceImpl implements AdminArticleService {
         List<String> publishTags = updateArticleReqVO.getTags();
         insertTags(articleId, publishTags);
 
+        // 发布文章修改事件
+        eventPublisher.publishEvent(new UpdateArticleEvent(this, articleId));
+
         return Response.success();
     }
 
+    /**
+     * 保存标签
+     * @param articleId
+     * @param publishTags
+     */
+    private void insertTags(Long articleId, List<String> publishTags) {
+        // 筛选提交的标签（表中不存在的标签）
+        List<String> notExistTags = null;
+        // 筛选提交的标签（表中已存在的标签）
+        List<String> existedTags = null;
 
+        // 查询出所有标签
+        List<TagDO> tagDOS = tagMapper.selectList(Wrappers.emptyWrapper());
+
+        // 如果表中还没有添加任何标签
+        if (org.springframework.util.CollectionUtils.isEmpty(tagDOS)) {
+            notExistTags = publishTags;
+        } else {
+            List<String> tagIds = tagDOS.stream().map(tagDO -> String.valueOf(tagDO.getId())).collect(Collectors.toList());
+            // 表中已添加相关标签，则需要筛选
+            // 通过标签 ID 来筛选，包含对应 ID 则表示提交的标签是表中存在的
+            existedTags = publishTags.stream().filter(publishTag -> tagIds.contains(publishTag)).collect(Collectors.toList());
+            // 否则则是不存在的
+            notExistTags = publishTags.stream().filter(publishTag -> !tagIds.contains(publishTag)).collect(Collectors.toList());
+
+            // 还有一种可能：按字符串名称提交上来的标签，也有可能是表中已存在的，比如表中已经有了 Java 标签，用户提交了个 java 小写的标签，需要内部装换为 Java 标签
+            Map<String, Long> tagNameIdMap = tagDOS.stream().collect(Collectors.toMap(tagDO -> tagDO.getName().toLowerCase(), TagDO::getId));
+
+            // 使用迭代器进行安全的删除操作
+            Iterator<String> iterator = notExistTags.iterator();
+            while (iterator.hasNext()) {
+                String notExistTag = iterator.next();
+                // 转小写, 若 Map 中相同的 key，则表示该新标签是重复标签
+                if (tagNameIdMap.containsKey(notExistTag.toLowerCase())) {
+                    // 从不存在的标签集合中清除
+                    iterator.remove();
+                    // 并将对应的 ID 添加到已存在的标签集合
+                    existedTags.add(String.valueOf(tagNameIdMap.get(notExistTag.toLowerCase())));
+                }
+            }
+        }
+
+        // 将提交的上来的，已存在于表中的标签，文章-标签关联关系入库
+        if (!org.springframework.util.CollectionUtils.isEmpty(existedTags)) {
+            List<ArticleTagRelDO> articleTagRelDOS = Lists.newArrayList();
+            existedTags.forEach(tagId -> {
+                ArticleTagRelDO articleTagRelDO = ArticleTagRelDO.builder()
+                        .articleId(articleId)
+                        .tagId(Long.valueOf(tagId))
+                        .build();
+                articleTagRelDOS.add(articleTagRelDO);
+            });
+            // 批量插入
+            articleTagRelMapper.insertBatchSomeColumn(articleTagRelDOS);
+        }
+
+        // 将提交的上来的，不存在于表中的标签，入库保存
+        if (!CollectionUtils.isEmpty(notExistTags)) {
+            // 需要先将标签入库，拿到对应标签 ID 后，再把文章-标签关联关系入库
+            List<ArticleTagRelDO> articleTagRelDOS = Lists.newArrayList();
+            notExistTags.forEach(tagName -> {
+                TagDO tagDO = TagDO.builder()
+                        .name(tagName)
+                        .createTime(LocalDateTime.now())
+                        .updateTime(LocalDateTime.now())
+                        .build();
+
+                tagMapper.insert(tagDO);
+
+                // 拿到保存的标签 ID
+                Long tagId = tagDO.getId();
+
+                // 文章-标签关联关系
+                ArticleTagRelDO articleTagRelDO = ArticleTagRelDO.builder()
+                        .articleId(articleId)
+                        .tagId(tagId)
+                        .build();
+                articleTagRelDOS.add(articleTagRelDO);
+            });
+            // 批量插入
+            articleTagRelMapper.insertBatchSomeColumn(articleTagRelDOS);
+        }
+    }
 }
