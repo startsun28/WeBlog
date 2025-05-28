@@ -12,7 +12,7 @@
             <div class="bg-white h-full border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
               <!-- 文章封面 -->
               <a @click="goArticleDetailPage(article.id)" class="cursor-pointer">
-                <img class="rounded-t-lg h-40 w-full"
+                <img class="rounded-t-lg h-45 w-full object-fill"
                      :src="article.cover"/>
               </a>
               <div class="p-5">

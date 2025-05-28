@@ -3,7 +3,6 @@ package com.myweb.weblog.web.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.google.common.collect.Lists;
-
 import com.myweb.weblog.common.domain.dos.ArticleDO;
 import com.myweb.weblog.common.domain.mapper.ArticleMapper;
 import com.myweb.weblog.common.utils.PageResponse;
@@ -24,14 +23,24 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+/**
+ * @description: 文章归档
+ **/
 @Service
 @Slf4j
 public class ArchiveServiceImpl implements ArchiveService {
+
     @Autowired
     private ArticleMapper articleMapper;
 
+    /**
+     * 获取文章归档分页数据
+     *
+     * @param findArchiveArticlePageListReqVO
+     * @return
+     */
     @Override
-    public Response findArchivePageList(FindArchiveArticlePageListReqVO findArchiveArticlePageListReqVO){
+    public Response findArchivePageList(FindArchiveArticlePageListReqVO findArchiveArticlePageListReqVO) {
         Long current = findArchiveArticlePageListReqVO.getCurrent();
         Long size = findArchiveArticlePageListReqVO.getSize();
 
