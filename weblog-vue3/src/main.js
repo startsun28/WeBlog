@@ -15,6 +15,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 图片点击放大
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
+// 导入 element-plus 暗黑 css
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 const app = createApp(App)
 

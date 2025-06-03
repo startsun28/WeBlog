@@ -15,14 +15,13 @@
           <ol v-if="articles && articles.length > 0" class="mt-3 divide-y divider-gray-200 dark:divide-gray-700">
             <li v-for="(article, index) in articles" :ket="index">
               <a @click="goArticleDetailPage(article.id)" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img class="w-24 h-12 mb-3 mr-3 rounded-lg sm:mb-0"
+                <img class="w-24 h-24 mb-3 mr-3 rounded-lg sm:mb-0 object-cover"
                      :src="article.cover" />
                 <div class="text-gray-600 dark:text-gray-400" >
-                  <h2 class="text-base font-normal text-gray-900">
+                  <h2 class="text-base font-normal text-gray-900 dark:text-white">
                     {{ article.title }}
                   </h2>
-                  <span
-                      class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
+                  <span class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
                       <svg class="inline w-2.5 h-2.5 mr-2 text-gray-400 dark:text-white"
                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                            viewBox="0 0 20 20">

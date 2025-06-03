@@ -15,7 +15,7 @@
                      :src="article.cover"
                 />
                 <div class="text-gray-600 dark:text-gray-400">
-                  <h2 class="text-base font-normal text-gray-900">
+                  <h2 class="text-base font-normal text-gray-900 dark:text-white">
                     {{ article.title }}
                   </h2>
                   <span class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">

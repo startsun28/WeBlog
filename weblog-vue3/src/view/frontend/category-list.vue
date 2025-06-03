@@ -9,7 +9,7 @@
       <aside class="col-span-4 md:col-span-1">
         <!-- 博主信息 -->
         <UserInfoCard />
-        <!-- 分类     -->
+        <!-- 分类 -->
         <CategoryListCard/>
         <!-- 标签 -->
         <TagListCard />

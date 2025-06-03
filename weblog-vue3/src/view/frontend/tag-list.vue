@@ -28,7 +28,7 @@
           </h2>
           <!-- 标签列表 -->
           <span v-for="(tag, index) in tags" :key="index" @click="goTagArticleListPage(tag.id, tag.name)"
-                class="inline-block mb-1 cursor-pointer bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1 rounded-full hover:bg-green-200 hover:text-green-900 dark:bg-green-900 dark:text-green-300">
+                class="inline-block mb-1 cursor-pointer bg-green-100 text-green-800 text-xs font-medium mr-2 px-3 py-1 rounded-full hover:bg-green-200 dark:hover:bg-green-950 hover:text-green-900 dark:bg-green-900 dark:text-green-300">
             {{ tag.name }}
           </span>
         </div>

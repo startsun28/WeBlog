@@ -23,21 +23,21 @@
       </div>
       <!-- 文章数量、分类数量、标签数量、总访问量 -->
       <!-- flex 布局，justify-center 水平居中，gap-5 设置 flex 内子元素的间距 -->
-      <div class="flex justify-center gap-5 mb-2">
+      <div class="flex justify-center gap-5 mb-2 dark:text-gray-400">
         <div @click="router.push('/archive/list')"
-             class="flex items-center flex-col gap-1 hover:text-blue-700 hover:scale-110 cursor-pointer">
+             class="flex items-center flex-col gap-1 hover:text-sky-600 hover:scale-110 cursor-pointer">
           <!-- 字体大小为 text-lg , font-bold 字体加粗 -->
           <CountTo :value="statisticsInfo.articleTotalCount" customClass="text-lg font-bold"></CountTo>
           <!-- 字体大小为 text-sm -->
           <div class="text-sm">文章</div>
         </div>
         <div  @click="router.push('/category/list')"
-              class="flex items-center flex-col gap-1 hover:text-blue-700 hover:scale-110 cursor-pointer">
+              class="flex items-center flex-col gap-1 hover:text-sky-600 hover:scale-110 cursor-pointer">
           <CountTo :value="statisticsInfo.categoryTotalCount" customClass="text-lg font-bold"></CountTo>
           <div class="text-sm">分类</div>
         </div>
         <div @click="router.push('/tag/list')"
-             class="flex items-center flex-col gap-1 hover:text-blue-700 hover:scale-110 cursor-pointer">
+             class="flex items-center flex-col gap-1 hover:text-sky-600 hover:scale-110 cursor-pointer">
           <CountTo :value="statisticsInfo.tagTotalCount" customClass="text-lg font-bold"></CountTo>
           <div class="text-sm">标签</div>
         </div>
@@ -157,7 +157,8 @@
              xmlns="http://www.w3.org/2000/svg"
              p-id="16209"
              width="200"
-             height="200">
+             height="200"
+        >
           <path d="M337.387283 341.82659c-17.757225 0-35.514451 11.83815-35.514451 29.595375s17.757225
                          29.595376 35.514451 29.595376 29.595376-11.83815
                          29.595376-29.595376c0-18.49711-11.83815-29.595376-29.595376-29.595375zM577.849711
@@ -167,11 +168,7 @@
                          0 29.595376-12.578035 29.595376-29.595376 0-17.757225-11.83815-29.595376-29.595376-29.595375s-35.514451
                          11.83815-35.51445 29.595375 17.757225 29.595376 35.51445 29.595376zM706.589595
                          513.479769c-11.83815 0-22.936416 12.578035-22.936416 23.6763 0 12.578035 11.83815
-                         23.676301 22.936416 23.676301 17.757225 0 29.595376-11.83815 29.595376-23.676301s-11.83815-23.676301-29.595376-23.6763z"
-                fill="#28C445"
-                p-id="16210"
-          />
-          <path d="M510.520231 2.959538C228.624277 2.959538 0 231.583815 0 513.479769s228.624277 510.520231
+                         23.676301 22.936416 23.676301 17.757225 0 29.595376-11.83815 29.595376-23.676301s-11.83815-23.676301-29.595376-23.6763z" fill="#28C445" p-id="16210"/><path d="M510.520231 2.959538C228.624277 2.959538 0 231.583815 0 513.479769s228.624277 510.520231
                          510.520231 510.520231 510.520231-228.624277 510.520231-510.520231-228.624277-510.520231-510.520231-510.520231zM413.595376
                          644.439306c-29.595376 0-53.271676-5.919075-81.387284-12.578034l-81.387283 41.433526
                          22.936416-71.768786c-58.450867-41.433526-93.965318-95.445087-93.965317-159.815029 0-113.202312
@@ -182,10 +179,7 @@
                          59.190752-63.630058-35.514451c-22.936416 5.919075-46.612717 11.83815-70.289017 11.83815-111.722543
                          0-199.768786-76.947977-199.768786-172.393063-0.739884-94.705202 87.306358-171.653179
                          198.289017-171.65318 105.803468 0 199.028902 77.687861 199.028902 172.393064 0 53.271676-34.774566
-                         100.624277-81.387283 136.138728z"
-                fill="#28C445"
-                p-id="16211"
-          />
+                         100.624277-81.387283 136.138728z" fill="#28C445" p-id="16211"/>
         </svg>
         <div id="wechat-tooltip-bottom" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-xs font-medium text-white bg-gray-900 rounded shadow-sm opacity-0 tooltip dark:bg-gray-700">
           我的微信
@@ -202,6 +196,9 @@ import {initTooltips} from 'flowbite'
 import { onMounted, ref } from 'vue'
 import { getStatisticsInfo } from '@/api/frontend/statistics'
 import CountTo from '@/components/CountTo.vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
 
 onMounted(() => {
   initTooltips();
